@@ -19,7 +19,7 @@ def load_line(line):
     if type(line) is str:
         df_line = pd.read_csv(resource_path(f'{line.lower()}.csv'))
     else:
-        raise NotImplementedError('Numerical input not yet supported')
+        raise NotImplementedError('Numerical or file input not yet supported')
     
     return df_line
 
