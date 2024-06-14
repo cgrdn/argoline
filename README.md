@@ -1,8 +1,10 @@
 # argoline
 Reconstruct an oceanographic line using Argo profiles
 
-Using [argopy]() or [argopandas]() as data sources, fetch all profiles within
-a defined _date_ range and _radius_ kilometers from a given oceanographic _line_:
+Using [argopy](https://github.com/Euroargodev/argopy) or 
+[argopandas](https://github.com/ArgoCanada/argopandas) as data sources, fetch 
+all profiles within a defined _date_ range and _radius_ kilometers from a given
+oceanographic _line_:
 
 ```python
 import argoline as al
