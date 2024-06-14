@@ -36,6 +36,28 @@ def measure_distance(line, index):
 
     return distance
 
+def nearest_station(line, index):
+
+    station = []
+    for lat, long, dist in zip(index.latitude, index.longitude, index.distance_from_line):
+        for slat, slong, stn in zip(line.latitude, line.longitude, line.station):
+            if geodesic((lat, long), (slat, slong)) == dist:
+                station.append(stn)
+                break
+    
+    return station
+
+def along_line(line, index):
+
+    lx = line.set_index('station')
+    s1 = line.station.iloc[0]
+
+    along = [
+        geodesic((lx.loc[s1].latitude, lx.loc[s1].longitude), (lx.loc[s].latitude, lx.loc[s].longitude)).km for s in index.nearest_station
+    ]
+
+    return along
+
 def profiles(line, radius, date, variable='core', source='argopandas'):
     '''
     Find all profiles within `radius` of `line` in the given `date` limits.
@@ -100,5 +122,7 @@ def profiles(line, radius, date, variable='core', source='argopandas'):
     # measure distance of each profile from line
     ix['distance_from_line'] = measure_distance(line, ix)
     ix = ix.loc[ix.distance_from_line < radius]
+    ix['nearest_station'] = nearest_station(line, ix)
+    ix['distance_along_line'] = along_line(line, ix)
 
     return ix
